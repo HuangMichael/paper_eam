@@ -11,8 +11,9 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            <p>上级位置id：</p>
-                            <input type="text" name="parentId"/>
+                            <p>上级位置：</p>
+                            <input id="treeId" name="parentId" type="hidden" th:value="${location?.id}"/>
+                            <input class="form-control" type="text" onclick="selectLocationTree()" id="treeName">
                         </li>
                         <li>
                             <p>位置名称：</p>
@@ -123,6 +124,25 @@
         };
         $.treeTable.init(options);
     });
+
+
+    /*位置信息-新增-选择父部门树*/
+    function selectLocationTree() {
+        var options = {
+            title: '位置信息选择',
+            width: "380",
+            url: prefix + "/selectLocationTree/" + $("#treeId").val(),
+            callBack: doSubmit
+        };
+        $.modal.openOptions(options);
+    }
+
+    function doSubmit(index, layero) {
+        var body = layer.getChildFrame('body', index);
+        $("#treeId").val(body.find('#treeId').val());
+        $("#treeName").val(body.find('#treeName').val());
+        layer.close(index);
+    }
 </script>
 </body>
 </html>

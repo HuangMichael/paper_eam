@@ -8,7 +8,7 @@
     <form class="form-horizontal m" id="form-location-edit" th:object="${location}">
         <input name="id" th:field="*{id}" type="hidden">
         <div class="form-group">
-            <label class="col-sm-3 control-label">上级位置id：</label>
+            <label class="col-sm-3 control-label">上级位置：</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <input id="treeId" name="parentId" type="hidden" th:field="*{parentId}"/>
