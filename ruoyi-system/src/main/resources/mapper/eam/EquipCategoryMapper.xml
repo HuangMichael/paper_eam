@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eam.mapper.EquipCategoryMapper">
+    
+    <resultMap type="EquipCategory" id="EquipCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="categoryCode"    column="category_code"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEquipCategoryVo">
+        select id, category_code, category_name, order_num, parent_id, status, del_flag, create_by, create_time, update_by, update_time from t_equip_category
+    </sql>
+
+    <select id="selectEquipCategoryList" parameterType="EquipCategory" resultMap="EquipCategoryResult">
+        <include refid="selectEquipCategoryVo"/>
+        <where>  
+            <if test="categoryCode != null  and categoryCode != ''"> and category_code = #{categoryCode}</if>
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectEquipCategoryById" parameterType="Long" resultMap="EquipCategoryResult">
+        <include refid="selectEquipCategoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEquipCategory" parameterType="EquipCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into t_equip_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryCode != null  and categoryCode != ''">category_code,</if>
+            <if test="categoryName != null  and categoryName != ''">category_name,</if>
+            <if test="orderNum != null ">order_num,</if>
+            <if test="parentId != null ">parent_id,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryCode != null  and categoryCode != ''">#{categoryCode},</if>
+            <if test="categoryName != null  and categoryName != ''">#{categoryName},</if>
+            <if test="orderNum != null ">#{orderNum},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquipCategory" parameterType="EquipCategory">
+        update t_equip_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryCode != null  and categoryCode != ''">category_code = #{categoryCode},</if>
+            <if test="categoryName != null  and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="orderNum != null ">order_num = #{orderNum},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquipCategoryById" parameterType="Long">
+        delete from t_equip_category where id = #{id}
+    </delete>
+
+    <delete id="deleteEquipCategoryByIds" parameterType="String">
+        delete from t_equip_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
